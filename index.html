@@ -353,12 +353,12 @@
     <button class="btn secondary" id="btnSubmitBottom">إرسال</button>
   </div>
 
-  <!-- Redirect submit form (NO target, NO iframe, NO popup) -->
-  <form id="submitForm" class="no-print"
-        action="https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec"
-        method="POST" style="display:none">
-    <input type="hidden" name="payload" id="payloadField" value="">
-  </form>
+<form id="submitForm" class="no-print"
+      action="https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec"
+      method="POST"
+      style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;opacity:0;">
+  <input type="hidden" name="payload" id="payloadField" value="">
+</form>
 
   <!-- ===== Modal (in-page sources) ===== -->
   <div class="modal-backdrop no-print" id="sourceModalBackdrop" aria-hidden="true">
@@ -573,3 +573,4 @@
   </script>
 </body>
 </html>
+
