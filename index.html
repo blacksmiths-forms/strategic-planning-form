@@ -46,6 +46,7 @@
       textarea{border:1px solid #ddd;background:#fff;box-shadow:none}
     }
 
+    /* ===== Modal for sources (in-page) ===== */
     .modal-backdrop{
       position:fixed; inset:0;
       background:rgba(0,0,0,0.55);
@@ -352,13 +353,14 @@
     <button class="btn secondary" id="btnSubmitBottom">إرسال</button>
   </div>
 
-  <!-- form submits to popup window (mobile-safe) -->
+  <!-- Redirect submit form (NO target, NO iframe, NO popup) -->
   <form id="submitForm" class="no-print"
         action="https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec"
-        method="POST" target="submitWin" style="display:none">
+        method="POST" style="display:none">
     <input type="hidden" name="payload" id="payloadField" value="">
   </form>
 
+  <!-- ===== Modal (in-page sources) ===== -->
   <div class="modal-backdrop no-print" id="sourceModalBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="المصدر الرسمي">
       <div class="modal-header">
@@ -379,7 +381,7 @@
 
   <script>
     const SHEET_ID_USED = "1kTuTJboa_M9pAcAudFY2UGtYWYurRV2w3pps5VjoQqE";
-    const STORAGE_KEY = "blacksmiths_strategic_form_v12_popup_submit";
+    const STORAGE_KEY = "blacksmiths_strategic_form_v13_redirect_submit";
 
     const FIELD_IDS = [
       "s1_products","s1_structure","s1_finance","s1_tech",
@@ -394,7 +396,7 @@
     function setStatus(msg){ if(statusEl) statusEl.textContent = msg; }
 
     function getAllData(){
-      const data = { _meta: { savedAt: nowTime(), version: 12, sheetId: SHEET_ID_USED } };
+      const data = { _meta: { savedAt: nowTime(), version: 13, sheetId: SHEET_ID_USED } };
       for (const id of FIELD_IDS){
         const el = document.getElementById(id);
         data[id] = el ? el.value : "";
@@ -485,7 +487,6 @@
 
     function submitToServer(){
       if (isSubmitting) return;
-
       isSubmitting = true;
       setSubmittingUI(true);
       setStatus("جاري الإرسال...");
@@ -493,40 +494,8 @@
       const data = getAllData();
       document.getElementById("payloadField").value = JSON.stringify(data);
 
-      // افتح نافذة منبثقة (من نفس ضغطة الزر) — هذا يضمن عمل POST على الجوال
-      const w = window.open("about:blank", "submitWin");
-      if (!w) {
-        setStatus("تم حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة ثم إعادة المحاولة.");
-        isSubmitting = false;
-        setSubmittingUI(false);
-        return;
-      }
-
-      // ننتظر رسالة النجاح من Apps Script
-      const onMsg = (ev) => {
-        if (ev && ev.data === "SUBMIT_OK") {
-          window.removeEventListener("message", onMsg);
-          setStatus("تم الإرسال بنجاح.");
-          isSubmitting = false;
-          setSubmittingUI(false);
-
-          const wantClear = confirm("هل تريد مسح النموذج الآن؟");
-          if (wantClear) clearAll();
-        }
-      };
-      window.addEventListener("message", onMsg);
-
-      // submit
+      // Redirect submit: سيتم الانتقال لصفحة "تم الإرسال" ثم الرجوع تلقائيا
       document.getElementById("submitForm").submit();
-
-      // fallback لو ما وصلت رسالة
-      setTimeout(() => {
-        if (!isSubmitting) return;
-        window.removeEventListener("message", onMsg);
-        setStatus("تم إرسال الطلب. إذا لم تظهر البيانات في Google Sheet خلال دقيقة، جرّب مرة أخرى.");
-        isSubmitting = false;
-        setSubmittingUI(false);
-      }, 15000);
     }
 
     // Modal sources
