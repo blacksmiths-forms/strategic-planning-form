@@ -46,7 +46,6 @@
       textarea{border:1px solid #ddd;background:#fff;box-shadow:none}
     }
 
-    /* ===== Modal for sources (in-page) ===== */
     .modal-backdrop{
       position:fixed; inset:0;
       background:rgba(0,0,0,0.55);
@@ -123,12 +122,7 @@
       display:none;
     }
 
-    /* =========================
-       Mobile friendly additions
-       ========================= */
-    @media (max-width: 1000px){
-      body{margin:22px}
-    }
+    @media (max-width: 1000px){ body{margin:22px} }
     @media (max-width: 700px){
       body{margin:14px}
       .section{padding:16px}
@@ -143,7 +137,6 @@
 </head>
 
 <body>
-  <!-- HEADER -->
   <div class="header">
     <h1 style="margin:0">🏭 BlackSmiths LLC</h1>
     <h2 style="margin:10px 0 0 0;color:#FFFFFF;border-bottom:none">نموذج التخطيط الاستراتيجي</h2>
@@ -154,7 +147,6 @@
     اكتب كما تفكر • لا تحاول تلميع الاجابة • كلما كنت صريحا كانت النتائج افضل
   </div>
 
-  <!-- أدوات (بدون JSON) -->
   <div class="section no-print">
     <h2>ادوات النموذج</h2>
     <div class="toolbar">
@@ -167,7 +159,6 @@
     <div class="status" id="status">جاهز.</div>
   </div>
 
-  <!-- 1 -->
   <div class="section">
     <h2>1. وضع الشركة المتوقع في 31/12/2026</h2>
 
@@ -210,7 +201,6 @@
     </div>
   </div>
 
-  <!-- 2 -->
   <div class="section">
     <h2>2. الرؤية (Vision)</h2>
     <div class="tip"><strong>مساعدة:</strong> الرؤية جملة واحدة توضح: الى اين نصل؟</div>
@@ -227,7 +217,6 @@
     </div>
   </div>
 
-  <!-- 3 -->
   <div class="section">
     <h2>3. الرسالة (Mission)</h2>
     <div class="tip"><strong>مساعدة:</strong> الرسالة 1–2 جملة: لمن؟ ماذا نقدم؟ كيف؟ وما النتيجة؟</div>
@@ -243,7 +232,6 @@
     </div>
   </div>
 
-  <!-- 4 -->
   <div class="section">
     <h2>4. القيم (Values)</h2>
     <div class="tip"><strong>مساعدة:</strong> اكتب 4–6 قيم، ولكل قيمة مثال سلوك يثبتها.</div>
@@ -262,7 +250,6 @@
     </div>
   </div>
 
-  <!-- 5 -->
   <div class="section">
     <h2>5. من نحن (Who We Are)</h2>
     <div class="tip"><strong>مساعدة:</strong> 3–6 جمل: من نحن؟ ما الذي نتميز به؟ لمن نخدم؟</div>
@@ -277,7 +264,6 @@
     </div>
   </div>
 
-  <!-- 6 -->
   <div class="section">
     <h2>6. الاهداف الكبرى 2030 + اهداف السنة الاولى 2027</h2>
 
@@ -352,7 +338,6 @@
     </div>
   </div>
 
-  <!-- 7 -->
   <div class="section">
     <h2>7. ملاحظات</h2>
     <label for="s7_notes">اي ملاحظات مهمة قبل الاجتماع</label>
@@ -363,20 +348,17 @@
     <h3>سيتم جمع جميع النسخ في اجتماع مشترك لصياغة النسخة النهائية</h3>
   </div>
 
-  <!-- زر إرسال في آخر الصفحة -->
   <div style="text-align:center;margin:30px 0" class="no-print">
     <button class="btn secondary" id="btnSubmitBottom">إرسال</button>
   </div>
 
-  <!-- hidden submit form (mobile-safe) -->
+  <!-- form submits to popup window (mobile-safe) -->
   <form id="submitForm" class="no-print"
         action="https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec"
-        method="POST" target="submitFrame" style="display:none">
+        method="POST" target="submitWin" style="display:none">
     <input type="hidden" name="payload" id="payloadField" value="">
   </form>
-  <iframe name="submitFrame" id="submitFrame" style="display:none"></iframe>
 
-  <!-- ===== Modal (in-page sources) ===== -->
   <div class="modal-backdrop no-print" id="sourceModalBackdrop" aria-hidden="true">
     <div class="modal" role="dialog" aria-modal="true" aria-label="المصدر الرسمي">
       <div class="modal-header">
@@ -396,12 +378,8 @@
   </div>
 
   <script>
-    // ===== Submit endpoint info (kept for meta only) =====
-    const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec";
     const SHEET_ID_USED = "1kTuTJboa_M9pAcAudFY2UGtYWYurRV2w3pps5VjoQqE";
-
-    // ========= LocalStorage (autosave) =========
-    const STORAGE_KEY = "blacksmiths_strategic_form_v11_iframe_submit_mobile_ok";
+    const STORAGE_KEY = "blacksmiths_strategic_form_v12_popup_submit";
 
     const FIELD_IDS = [
       "s1_products","s1_structure","s1_finance","s1_tech",
@@ -416,7 +394,7 @@
     function setStatus(msg){ if(statusEl) statusEl.textContent = msg; }
 
     function getAllData(){
-      const data = { _meta: { savedAt: nowTime(), version: 11, sheetId: SHEET_ID_USED } };
+      const data = { _meta: { savedAt: nowTime(), version: 12, sheetId: SHEET_ID_USED } };
       for (const id of FIELD_IDS){
         const el = document.getElementById(id);
         data[id] = el ? el.value : "";
@@ -464,9 +442,7 @@
       saveTimer = setTimeout(() => saveToLocal(), 600);
     }
 
-    // ========= Undo (آخر تعديل فقط) =========
-    let lastUndo = null; // { id, value, selStart, selEnd }
-
+    let lastUndo = null;
     function captureUndoState(el){
       if (!el || !el.id) return;
       lastUndo = {
@@ -483,7 +459,6 @@
       if (!lastUndo) { setStatus("لا يوجد تعديل للتراجع عنه."); return; }
       const el = document.getElementById(lastUndo.id);
       if (!el) { setStatus("تعذر التراجع (الحقل غير موجود)."); return; }
-
       el.value = lastUndo.value;
       el.focus();
       try{
@@ -491,25 +466,19 @@
           el.setSelectionRange(lastUndo.selStart, lastUndo.selEnd);
         }
       }catch(_){}
-
       lastUndo = null;
       const btnUndo = document.getElementById("btnUndo");
       if (btnUndo) btnUndo.disabled = true;
-
       scheduleAutosave();
       setStatus("تم التراجع عن آخر تعديل.");
     }
 
-    // ========= Submit controls =========
     let isSubmitting = false;
-
     function setSubmittingUI(on){
       const btnSubmit = document.getElementById("btnSubmit");
       const btnSubmitBottom = document.getElementById("btnSubmitBottom");
-
       if (btnSubmit) btnSubmit.disabled = on;
       if (btnSubmitBottom) btnSubmitBottom.disabled = on;
-
       if (btnSubmit) btnSubmit.textContent = on ? "جاري الإرسال..." : "إرسال";
       if (btnSubmitBottom) btnSubmitBottom.textContent = on ? "جاري الإرسال..." : "إرسال";
     }
@@ -524,41 +493,43 @@
       const data = getAllData();
       document.getElementById("payloadField").value = JSON.stringify(data);
 
-      const frame = document.getElementById("submitFrame");
-      let completed = false;
-
-      const onLoadOnce = () => {
-        frame.removeEventListener("load", onLoadOnce);
-        completed = true;
-
-        setStatus("تم الإرسال بنجاح.");
-
+      // افتح نافذة منبثقة (من نفس ضغطة الزر) — هذا يضمن عمل POST على الجوال
+      const w = window.open("about:blank", "submitWin");
+      if (!w) {
+        setStatus("تم حظر النافذة المنبثقة. يرجى السماح بالنوافذ المنبثقة ثم إعادة المحاولة.");
         isSubmitting = false;
         setSubmittingUI(false);
+        return;
+      }
 
-        const wantClear = confirm("هل تريد مسح النموذج الآن؟");
-        if (wantClear) {
-          clearAll();
+      // ننتظر رسالة النجاح من Apps Script
+      const onMsg = (ev) => {
+        if (ev && ev.data === "SUBMIT_OK") {
+          window.removeEventListener("message", onMsg);
+          setStatus("تم الإرسال بنجاح.");
+          isSubmitting = false;
+          setSubmittingUI(false);
+
+          const wantClear = confirm("هل تريد مسح النموذج الآن؟");
+          if (wantClear) clearAll();
         }
       };
+      window.addEventListener("message", onMsg);
 
-      frame.addEventListener("load", onLoadOnce);
-
-      // submit via classic form POST (mobile-friendly)
+      // submit
       document.getElementById("submitForm").submit();
 
-      // fallback if iframe never loads (some mobile webviews)
+      // fallback لو ما وصلت رسالة
       setTimeout(() => {
-        if (completed) return;
-
-        // We don't claim success; we provide guidance
-        setStatus("تم إرسال الطلب. إذا لم تظهر البيانات في Google Sheet خلال دقيقة، جرّب فتح النموذج في Chrome ثم أعد الإرسال.");
+        if (!isSubmitting) return;
+        window.removeEventListener("message", onMsg);
+        setStatus("تم إرسال الطلب. إذا لم تظهر البيانات في Google Sheet خلال دقيقة، جرّب مرة أخرى.");
         isSubmitting = false;
         setSubmittingUI(false);
-      }, 12000);
+      }, 15000);
     }
 
-    // ========= Modal sources =========
+    // Modal sources
     const backdrop = document.getElementById("sourceModalBackdrop");
     const frame2 = document.getElementById("sourceModalFrame");
     const titleEl = document.getElementById("sourceModalTitle");
@@ -571,15 +542,10 @@
       frame2.src = "about:blank";
       titleEl.textContent = "المصدر الرسمي";
       openNewEl.href = url;
-
       backdrop.style.display = "flex";
       backdrop.setAttribute("aria-hidden", "false");
-
       frame2.src = url;
-
-      setTimeout(() => {
-        hintEl.style.display = "block";
-      }, 2500);
+      setTimeout(() => { hintEl.style.display = "block"; }, 2500);
     }
 
     function closeSourceModal(){
@@ -588,14 +554,9 @@
       backdrop.setAttribute("aria-hidden", "true");
     }
 
-    backdrop.addEventListener("click", (e) => {
-      if (e.target === backdrop) closeSourceModal();
-    });
+    backdrop.addEventListener("click", (e) => { if (e.target === backdrop) closeSourceModal(); });
     closeBtn.addEventListener("click", closeSourceModal);
-
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape" && backdrop.style.display === "flex") closeSourceModal();
-    });
+    document.addEventListener("keydown", (e) => { if (e.key === "Escape" && backdrop.style.display === "flex") closeSourceModal(); });
 
     window.addEventListener("DOMContentLoaded", () => {
       loadFromLocal();
@@ -606,7 +567,6 @@
       for (const id of FIELD_IDS){
         const el = document.getElementById(id);
         if (!el) continue;
-
         el.addEventListener("beforeinput", () => captureUndoState(el));
         el.addEventListener("focus", () => captureUndoState(el));
         el.addEventListener("input", scheduleAutosave);
