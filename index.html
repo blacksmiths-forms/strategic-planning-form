@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BlackSmiths LLC - نموذج التخطيط الاستراتيجي</title>
+
+  <style>
+    body{font-family:Tajawal,Segoe UI,sans-serif;line-height:1.75;margin:40px;background:#f8f9fa}
+    .header{background:linear-gradient(135deg,#FF6A00,#000000);color:#FFFFFF;padding:30px;text-align:center;border-radius:14px}
+    .section{background:#FFFFFF;margin:20px 0;padding:25px;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.08)}
+    .partner-box{background:#FFF2E5;padding:15px;border-radius:10px;margin:15px 0;border-right:5px solid #FF6A00}
+    .tip{background:#eef6ff;border:1px solid #cfe4ff;padding:12px;border-radius:10px;margin:12px 0}
+    h2{color:#000;border-bottom:3px solid #FF6A00;padding-bottom:10px;margin:0 0 12px 0}
+    h3{color:#000;margin:18px 0 6px 0}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+    label{display:block;font-weight:700;margin:8px 0 6px 0}
+    textarea{
+      width:100%;
+      border:2px dashed #FF6A00;
+      padding:12px;
+      border-radius:10px;
+      min-height:150px;
+      background:#f8fafc;
+      font-size:16px;
+      resize:vertical;
+      box-sizing:border-box;
+    }
+    textarea:focus{outline:none;border-color:#000000;background:#FFFFFF;box-shadow:0 0 0 3px rgba(255,106,0,0.18)}
+    .example{color:#000;background:#FFF2E5;padding:12px;border-radius:8px;font-size:14px;margin:10px 0;border-left:4px solid #FF6A00}
+    .example a{color:#000;text-decoration:underline}
+    .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:center;margin:18px 0 0 0}
+    .btn{background:#FF6A00;color:#FFFFFF;border:none;padding:12px 18px;font-size:16px;border-radius:10px;cursor:pointer}
+    .btn.secondary{background:#000000}
+    .btn.ghost{background:#FFFFFF;color:#000;border:1px solid #ddd}
+    .btn:disabled{opacity:0.55;cursor:not-allowed}
+    .status{margin:12px auto 0 auto;max-width:980px;text-align:center;font-size:14px;color:#333}
+    .footer{text-align:center;padding:20px;background:#000000;border-radius:12px;margin:30px 0}
+    .footer h3{color:#FFFFFF;margin:0}
+    .no-print{display:block}
+    @media print{
+      body{margin:0;background:#fff}
+      .no-print{display:none}
+      .section{box-shadow:none}
+      .header{border-radius:0}
+      textarea{border:1px solid #ddd;background:#fff;box-shadow:none}
+    }
+
+    /* ===== Modal for sources (in-page) ===== */
+    .modal-backdrop{
+      position:fixed; inset:0;
+      background:rgba(0,0,0,0.55);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+      z-index:9999;
+    }
+    .modal{
+      background:#fff;
+      width:min(1100px, 96vw);
+      height:min(80vh, 780px);
+      border-radius:14px;
+      overflow:hidden;
+      box-shadow:0 12px 50px rgba(0,0,0,0.35);
+      display:flex;
+      flex-direction:column;
+    }
+    .modal-header{
+      background:#000;
+      color:#fff;
+      padding:12px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .modal-header .title{
+      font-weight:700;
+      font-size:14px;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .modal-header .actions{
+      display:flex; gap:8px; align-items:center;
+      flex-wrap:wrap;
+    }
+    .modal-header .smallbtn{
+      background:#FF6A00;
+      color:#fff;
+      border:none;
+      border-radius:10px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-size:13px;
+      text-decoration:none;
+      display:inline-block;
+    }
+    .modal-header .smallbtn.ghost{
+      background:transparent;
+      border:1px solid rgba(255,255,255,0.25);
+    }
+    .modal-body{
+      flex:1;
+      background:#f4f6f8;
+      position:relative;
+    }
+    .modal-body iframe{
+      width:100%;
+      height:100%;
+      border:0;
+      background:#fff;
+    }
+    .modal-hint{
+      position:absolute;
+      inset:auto 12px 12px 12px;
+      background:rgba(255,255,255,0.92);
+      border:1px solid #e5e7eb;
+      border-radius:12px;
+      padding:10px 12px;
+      font-size:13px;
+      display:none;
+    }
+
+    /* =========================
+       Mobile friendly additions
+       ========================= */
+    @media (max-width: 1000px){
+      body{margin:22px}
+    }
+    @media (max-width: 700px){
+      body{margin:14px}
+      .section{padding:16px}
+      .header{padding:20px}
+      .grid{grid-template-columns:1fr}
+      textarea{min-height:140px;font-size:16px}
+      .toolbar{justify-content:stretch}
+      .btn{width:100%}
+      .modal{width:96vw;height:86vh}
+    }
+  </style>
+</head>
+
+<body>
+  <!-- HEADER -->
+  <div class="header">
+    <h1 style="margin:0">🏭 BlackSmiths LLC</h1>
+    <h2 style="margin:10px 0 0 0;color:#FFFFFF;border-bottom:none">نموذج التخطيط الاستراتيجي</h2>
+  </div>
+
+  <div class="partner-box no-print">
+    <strong>تعليمات سريعة:</strong>
+    اكتب كما تفكر • لا تحاول تلميع الاجابة • كلما كنت صريحا كانت النتائج افضل
+  </div>
+
+  <!-- أدوات (بدون JSON) -->
+  <div class="section no-print">
+    <h2>ادوات النموذج</h2>
+    <div class="toolbar">
+      <button class="btn" id="btnSave">حفظ الآن</button>
+      <button class="btn ghost" id="btnUndo">تراجع عن آخر تعديل</button>
+      <button class="btn secondary" id="btnPrint">طباعة / حفظ PDF</button>
+      <button class="btn ghost" id="btnClear">مسح كل البيانات</button>
+      <button class="btn secondary" id="btnSubmit">إرسال</button>
+    </div>
+    <div class="status" id="status">جاهز.</div>
+  </div>
+
+  <!-- 1 -->
+  <div class="section">
+    <h2>1. وضع الشركة المتوقع في 31/12/2026</h2>
+
+    <div class="tip">
+      <strong>كيف تكتب؟</strong> استخدم جمل قصيرة او نقاط. اذا ما تعرف رقما دقيقا، اكتب تقديرا او "تقريبا".
+    </div>
+
+    <label for="s1_products">1) المنتجات والخدمات</label>
+    <textarea id="s1_products" placeholder="اكتب هنا..."></textarea>
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "Our vision is to be the preferred world leader in chemicals."<br>
+      (رؤيتنا أن نصبح الشركة العالمية الرائدة المفضلة في مجال الكيماويات.)<br>
+      <a href="https://www.sabic.com/en/about/our-vision" class="source-link">المصدر الرسمي</a>
+    </div>
+
+    <label for="s1_structure">2) الهيكل والفروع وعدد الموظفين</label>
+    <textarea id="s1_structure" placeholder="اكتب هنا..."></textarea>
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "SABIC is a global diversified chemicals company, headquartered in Riyadh, Saudi Arabia."<br>
+      <a href="https://www.sabic.com/en/about/corporate-profile/sabic-at-a-glance" class="source-link">المصدر الرسمي</a>
+    </div>
+
+    <label for="s1_finance">3) الوضع المالي (الايرادات/المصروفات/الارباح)</label>
+    <textarea id="s1_finance" placeholder="اكتب هنا..."></textarea>
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "…operational excellence…"<br>
+      (…التميز التشغيلي…)<br>
+      <a href="https://www.sabic.com/en/about/our-vision" class="source-link">المصدر الرسمي</a>
+    </div>
+
+    <label for="s1_tech">4) التقنية المستعملة</label>
+    <textarea id="s1_tech" placeholder="اكتب هنا..."></textarea>
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • stc group: "digital and telco leader, enabling the society and economy to thrive, in KSA and beyond."<br>
+      <a href="https://www.stc.com/content/stcgroupwebsite/sa/en/who-we-are/our-strategy.html" class="source-link">المصدر الرسمي</a>
+    </div>
+  </div>
+
+  <!-- 2 -->
+  <div class="section">
+    <h2>2. الرؤية (Vision)</h2>
+    <div class="tip"><strong>مساعدة:</strong> الرؤية جملة واحدة توضح: الى اين نصل؟</div>
+
+    <label for="s2_vision">اكتب الرؤية</label>
+    <textarea id="s2_vision" placeholder="اكتب هنا..."></textarea>
+
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "Our vision is to be the preferred world leader in chemicals."<br>
+      <a href="https://www.sabic.com/en/about/our-vision" class="source-link">المصدر الرسمي</a><br><br>
+      • stc group: "digital and telco leader, enabling the society and economy to thrive, in KSA and beyond."<br>
+      <a href="https://www.stc.com/content/stcgroupwebsite/sa/en/who-we-are/our-strategy.html" class="source-link">المصدر الرسمي</a>
+    </div>
+  </div>
+
+  <!-- 3 -->
+  <div class="section">
+    <h2>3. الرسالة (Mission)</h2>
+    <div class="tip"><strong>مساعدة:</strong> الرسالة 1–2 جملة: لمن؟ ماذا نقدم؟ كيف؟ وما النتيجة؟</div>
+
+    <label for="s3_mission">اكتب الرسالة</label>
+    <textarea id="s3_mission" placeholder="اكتب هنا..."></textarea>
+
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "…provide quality products and services…"<br>
+      (…تقديم منتجات وخدمات عالية الجودة…)<br>
+      <a href="https://www.sabic.com/en/about/our-vision" class="source-link">المصدر الرسمي</a>
+    </div>
+  </div>
+
+  <!-- 4 -->
+  <div class="section">
+    <h2>4. القيم (Values)</h2>
+    <div class="tip"><strong>مساعدة:</strong> اكتب 4–6 قيم، ولكل قيمة مثال سلوك يثبتها.</div>
+
+    <label for="s4_values">القيم + امثلة سلوكية</label>
+    <textarea id="s4_values" placeholder="اكتب هنا..."></textarea>
+
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "…INSPIRE, ENGAGE, CREATE and DELIVER."<br>
+      (…نُلهم، نشارك، نبدع، ونُنجز…)<br>
+      <a href="https://www.sabic.com/en/about/our-vision" class="source-link">المصدر الرسمي</a><br><br>
+      • GSK: "Patient focus… Integrity… Respect… Transparency."<br>
+      (التركيز على المريض… النزاهة… الاحترام… الشفافية.)<br>
+      <a href="https://www.gsk.com/media/qnmhqzmy/the-code-printable-version.pdf" class="source-link">المصدر الرسمي</a>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <div class="section">
+    <h2>5. من نحن (Who We Are)</h2>
+    <div class="tip"><strong>مساعدة:</strong> 3–6 جمل: من نحن؟ ما الذي نتميز به؟ لمن نخدم؟</div>
+
+    <label for="s5_who">اكتب تعريف الشركة</label>
+    <textarea id="s5_who" placeholder="اكتب هنا..."></textarea>
+
+    <div class="example">
+      <strong>أمثلة:</strong><br>
+      • سابك (SABIC): "SABIC is a global diversified chemicals company, headquartered in Riyadh, Saudi Arabia."<br>
+      <a href="https://www.sabic.com/en/about/corporate-profile/sabic-at-a-glance" class="source-link">المصدر الرسمي</a>
+    </div>
+  </div>
+
+  <!-- 6 -->
+  <div class="section">
+    <h2>6. الاهداف الكبرى 2030 + اهداف السنة الاولى 2027</h2>
+
+    <div class="tip">
+      <strong>مساعدة:</strong> اكتب اهداف 2030 على منظور Balanced Scorecard (4 محاور)، ثم اهداف 2027 بنفس المحاور.
+    </div>
+
+    <div class="example">
+      <strong>أسئلة محفزة (لتسهيل الكتابة):</strong><br>
+      • ما الشيء الذي لو تحقق سيغير اللعبة؟<br>
+      • ما الذي سنوقفه او نقلله؟ وما الذي سنضاعفه؟<br>
+      • ما المؤشر البسيط الذي يثبت التقدم؟ (رقم/نسبة/مدة/عدد)<br>
+      • ما "عنق الزجاجة" الحالي الذي يجب كسره اولا؟
+    </div>
+
+    <div class="example">
+      <strong>مثال للتوضيح (ليس معيارا — فقط لتحفيز التفكير):</strong><br><br>
+
+      <strong>أ) 2030 — كيف تبدو الشركة اذا نجحت؟</strong><br>
+      • <strong>مالية:</strong> "نصل لتدفق نقدي ثابت يغطي التوسع بدون ضغط"، "نرفع هامش الربح عبر تقليل الهدر"، "تنويع مصادر الدخل بدل الاعتماد على عميل/منتج واحد".<br>
+      • <strong>العملاء:</strong> "نصبح الخيار الأول في قطاع محدد"، "نبني تجربة عميل تجعل التكرار تلقائي"، "سمعة قوية (NPS/رضا)".<br>
+      • <strong>العمليات الداخلية:</strong> "عملية تسليم/تشغيل بدون فوضى"، "معايير جودة واضحة"، "وقت دورة (Cycle time) أقل"، "تقارير تشغيل أسبوعية".<br>
+      • <strong>الموظفين والتعلم:</strong> "قادة صف ثاني"، "خطة تدريب واضحة"، "ثقافة مساءلة بدون خوف"، "توظيف نوعي يغطي الفجوات".<br><br>
+
+      <strong>ب) 2027 — ما الخطوة الأولى الواقعية نحو 2030؟</strong><br>
+      • <strong>مالية:</strong> "نغلق 3 عقود رئيسية"، "نحسن التحصيل خلال 30 يوم"، "نوقف/نقلل خدمة غير مربحة".<br>
+      • <strong>العملاء:</strong> "نحدد شريحة العملاء المثالية"، "نثبت عرض قيمة واحد واضح"، "نحسن رحلة ما بعد البيع".<br>
+      • <strong>العمليات الداخلية:</strong> "نوثق العمليات الأساسية"، "نطبّق نظام متابعة مهام/جودة"، "نقلل أخطاء التسليم".<br>
+      • <strong>الموظفين والتعلم:</strong> "توظيف دورين حاسمين"، "برنامج تدريب قصير شهري"، "اجتماع أداء أسبوعي ثابت".<br><br>
+
+      <strong>ملاحظة:</strong> اكتب أهدافك بصيغة "نريد أن..." ثم أضف "كيف سنقيسها؟" حتى لو كان القياس تقريبيًا.
+    </div>
+
+    <h3>اهداف 2030 (Balanced Scorecard)</h3>
+    <div class="grid">
+      <div>
+        <label for="s6_2030_fin">مالية (2030)</label>
+        <textarea id="s6_2030_fin" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2030_cust">العملاء (2030)</label>
+        <textarea id="s6_2030_cust" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2030_internal">العمليات الداخلية (2030)</label>
+        <textarea id="s6_2030_internal" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2030_people">الموظفين والتعلم (2030)</label>
+        <textarea id="s6_2030_people" placeholder="اكتب هنا..."></textarea>
+      </div>
+    </div>
+
+    <h3 style="margin-top:20px">اهداف 2027</h3>
+    <div class="grid">
+      <div>
+        <label for="s6_2027_fin">مالية (2027)</label>
+        <textarea id="s6_2027_fin" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2027_cust">العملاء (2027)</label>
+        <textarea id="s6_2027_cust" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2027_internal">العمليات الداخلية (2027)</label>
+        <textarea id="s6_2027_internal" placeholder="اكتب هنا..."></textarea>
+      </div>
+      <div>
+        <label for="s6_2027_people">الموظفين والتعلم (2027)</label>
+        <textarea id="s6_2027_people" placeholder="اكتب هنا..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7 -->
+  <div class="section">
+    <h2>7. ملاحظات</h2>
+    <label for="s7_notes">اي ملاحظات مهمة قبل الاجتماع</label>
+    <textarea id="s7_notes" placeholder="اكتب هنا..."></textarea>
+  </div>
+
+  <div class="footer">
+    <h3>سيتم جمع جميع النسخ في اجتماع مشترك لصياغة النسخة النهائية</h3>
+  </div>
+
+  <!-- زر إرسال في آخر الصفحة -->
+  <div style="text-align:center;margin:30px 0" class="no-print">
+    <button class="btn secondary" id="btnSubmitBottom">إرسال</button>
+  </div>
+
+  <!-- hidden submit form (mobile-safe) -->
+  <form id="submitForm" class="no-print"
+        action="https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec"
+        method="POST" target="submitFrame" style="display:none">
+    <input type="hidden" name="payload" id="payloadField" value="">
+  </form>
+  <iframe name="submitFrame" id="submitFrame" style="display:none"></iframe>
+
+  <!-- ===== Modal (in-page sources) ===== -->
+  <div class="modal-backdrop no-print" id="sourceModalBackdrop" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-label="المصدر الرسمي">
+      <div class="modal-header">
+        <div class="title" id="sourceModalTitle">المصدر الرسمي</div>
+        <div class="actions">
+          <a class="smallbtn ghost" id="sourceModalOpenNew" href="#" target="_blank" rel="noopener">فتح في تبويب جديد</a>
+          <button class="smallbtn" id="sourceModalClose" type="button">إغلاق</button>
+        </div>
+      </div>
+      <div class="modal-body">
+        <iframe id="sourceModalFrame" title="المصدر الرسمي"></iframe>
+        <div class="modal-hint" id="sourceModalHint">
+          قد يمنع الموقع العرض داخل هذه النافذة. استخدم زر "فتح في تبويب جديد".
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== Submit endpoint info (kept for meta only) =====
+    const SUBMIT_URL = "https://script.google.com/macros/s/AKfycbwVr3kCNhoWAcslUQlM5aEYVwU5NM8o1kNegA9y2lb2wf-Sl8Gj2ZOj6qvBpAAy0VI/exec";
+    const SHEET_ID_USED = "1kTuTJboa_M9pAcAudFY2UGtYWYurRV2w3pps5VjoQqE";
+
+    // ========= LocalStorage (autosave) =========
+    const STORAGE_KEY = "blacksmiths_strategic_form_v11_iframe_submit_mobile_ok";
+
+    const FIELD_IDS = [
+      "s1_products","s1_structure","s1_finance","s1_tech",
+      "s2_vision","s3_mission","s4_values","s5_who",
+      "s6_2030_fin","s6_2030_cust","s6_2030_internal","s6_2030_people",
+      "s6_2027_fin","s6_2027_cust","s6_2027_internal","s6_2027_people",
+      "s7_notes"
+    ];
+
+    const statusEl = document.getElementById("status");
+    function nowTime(){ return new Date().toLocaleString("ar-SA"); }
+    function setStatus(msg){ if(statusEl) statusEl.textContent = msg; }
+
+    function getAllData(){
+      const data = { _meta: { savedAt: nowTime(), version: 11, sheetId: SHEET_ID_USED } };
+      for (const id of FIELD_IDS){
+        const el = document.getElementById(id);
+        data[id] = el ? el.value : "";
+      }
+      return data;
+    }
+
+    function setAllData(data){
+      for (const id of FIELD_IDS){
+        const el = document.getElementById(id);
+        if (el) el.value = (data && typeof data[id] === "string") ? data[id] : "";
+      }
+    }
+
+    function saveToLocal(){
+      const data = getAllData();
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      setStatus("تم الحفظ محليا: " + data._meta.savedAt);
+    }
+
+    function loadFromLocal(){
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw){ setStatus("لا يوجد بيانات محفوظة محليا بعد."); return; }
+      try{
+        const data = JSON.parse(raw);
+        setAllData(data);
+        setStatus("تم تحميل بيانات محفوظة: " + (data?._meta?.savedAt || nowTime()));
+      }catch(e){
+        setStatus("تعذر قراءة البيانات المحفوظة (قد تكون تالفة).");
+      }
+    }
+
+    function clearAll(){
+      for (const id of FIELD_IDS){
+        const el = document.getElementById(id);
+        if (el) el.value = "";
+      }
+      localStorage.removeItem(STORAGE_KEY);
+      setStatus("تم مسح البيانات.");
+    }
+
+    let saveTimer = null;
+    function scheduleAutosave(){
+      if (saveTimer) clearTimeout(saveTimer);
+      saveTimer = setTimeout(() => saveToLocal(), 600);
+    }
+
+    // ========= Undo (آخر تعديل فقط) =========
+    let lastUndo = null; // { id, value, selStart, selEnd }
+
+    function captureUndoState(el){
+      if (!el || !el.id) return;
+      lastUndo = {
+        id: el.id,
+        value: el.value,
+        selStart: (typeof el.selectionStart === "number") ? el.selectionStart : null,
+        selEnd: (typeof el.selectionEnd === "number") ? el.selectionEnd : null
+      };
+      const btnUndo = document.getElementById("btnUndo");
+      if (btnUndo) btnUndo.disabled = false;
+    }
+
+    function doUndo(){
+      if (!lastUndo) { setStatus("لا يوجد تعديل للتراجع عنه."); return; }
+      const el = document.getElementById(lastUndo.id);
+      if (!el) { setStatus("تعذر التراجع (الحقل غير موجود)."); return; }
+
+      el.value = lastUndo.value;
+      el.focus();
+      try{
+        if (lastUndo.selStart !== null && lastUndo.selEnd !== null){
+          el.setSelectionRange(lastUndo.selStart, lastUndo.selEnd);
+        }
+      }catch(_){}
+
+      lastUndo = null;
+      const btnUndo = document.getElementById("btnUndo");
+      if (btnUndo) btnUndo.disabled = true;
+
+      scheduleAutosave();
+      setStatus("تم التراجع عن آخر تعديل.");
+    }
+
+    // ========= Submit controls =========
+    let isSubmitting = false;
+
+    function setSubmittingUI(on){
+      const btnSubmit = document.getElementById("btnSubmit");
+      const btnSubmitBottom = document.getElementById("btnSubmitBottom");
+
+      if (btnSubmit) btnSubmit.disabled = on;
+      if (btnSubmitBottom) btnSubmitBottom.disabled = on;
+
+      if (btnSubmit) btnSubmit.textContent = on ? "جاري الإرسال..." : "إرسال";
+      if (btnSubmitBottom) btnSubmitBottom.textContent = on ? "جاري الإرسال..." : "إرسال";
+    }
+
+    function submitToServer(){
+      if (isSubmitting) return;
+
+      isSubmitting = true;
+      setSubmittingUI(true);
+      setStatus("جاري الإرسال...");
+
+      const data = getAllData();
+      document.getElementById("payloadField").value = JSON.stringify(data);
+
+      const frame = document.getElementById("submitFrame");
+      let completed = false;
+
+      const onLoadOnce = () => {
+        frame.removeEventListener("load", onLoadOnce);
+        completed = true;
+
+        setStatus("تم الإرسال بنجاح.");
+
+        isSubmitting = false;
+        setSubmittingUI(false);
+
+        const wantClear = confirm("هل تريد مسح النموذج الآن؟");
+        if (wantClear) {
+          clearAll();
+        }
+      };
+
+      frame.addEventListener("load", onLoadOnce);
+
+      // submit via classic form POST (mobile-friendly)
+      document.getElementById("submitForm").submit();
+
+      // fallback if iframe never loads (some mobile webviews)
+      setTimeout(() => {
+        if (completed) return;
+
+        // We don't claim success; we provide guidance
+        setStatus("تم إرسال الطلب. إذا لم تظهر البيانات في Google Sheet خلال دقيقة، جرّب فتح النموذج في Chrome ثم أعد الإرسال.");
+        isSubmitting = false;
+        setSubmittingUI(false);
+      }, 12000);
+    }
+
+    // ========= Modal sources =========
+    const backdrop = document.getElementById("sourceModalBackdrop");
+    const frame2 = document.getElementById("sourceModalFrame");
+    const titleEl = document.getElementById("sourceModalTitle");
+    const hintEl = document.getElementById("sourceModalHint");
+    const openNewEl = document.getElementById("sourceModalOpenNew");
+    const closeBtn = document.getElementById("sourceModalClose");
+
+    function openSourceModal(url){
+      hintEl.style.display = "none";
+      frame2.src = "about:blank";
+      titleEl.textContent = "المصدر الرسمي";
+      openNewEl.href = url;
+
+      backdrop.style.display = "flex";
+      backdrop.setAttribute("aria-hidden", "false");
+
+      frame2.src = url;
+
+      setTimeout(() => {
+        hintEl.style.display = "block";
+      }, 2500);
+    }
+
+    function closeSourceModal(){
+      frame2.src = "about:blank";
+      backdrop.style.display = "none";
+      backdrop.setAttribute("aria-hidden", "true");
+    }
+
+    backdrop.addEventListener("click", (e) => {
+      if (e.target === backdrop) closeSourceModal();
+    });
+    closeBtn.addEventListener("click", closeSourceModal);
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && backdrop.style.display === "flex") closeSourceModal();
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      loadFromLocal();
+
+      const btnUndo = document.getElementById("btnUndo");
+      if (btnUndo) btnUndo.disabled = true;
+
+      for (const id of FIELD_IDS){
+        const el = document.getElementById(id);
+        if (!el) continue;
+
+        el.addEventListener("beforeinput", () => captureUndoState(el));
+        el.addEventListener("focus", () => captureUndoState(el));
+        el.addEventListener("input", scheduleAutosave);
+      }
+
+      const btnSave = document.getElementById("btnSave");
+      if (btnSave) btnSave.addEventListener("click", saveToLocal);
+
+      if (btnUndo) btnUndo.addEventListener("click", doUndo);
+
+      const btnSubmit = document.getElementById("btnSubmit");
+      if (btnSubmit) btnSubmit.addEventListener("click", submitToServer);
+
+      const btnSubmitBottom = document.getElementById("btnSubmitBottom");
+      if (btnSubmitBottom) btnSubmitBottom.addEventListener("click", submitToServer);
+
+      const btnPrint = document.getElementById("btnPrint");
+      if (btnPrint) btnPrint.addEventListener("click", () => window.print());
+
+      const btnClear = document.getElementById("btnClear");
+      if (btnClear) btnClear.addEventListener("click", () => {
+        const ok = confirm("هل انت متأكد؟ سيتم مسح كل البيانات من هذا الجهاز.");
+        if (ok) clearAll();
+      });
+
+      document.querySelectorAll("a.source-link").forEach(a => {
+        a.setAttribute("rel", "noopener");
+        a.addEventListener("click", (e) => {
+          e.preventDefault();
+          const url = a.getAttribute("href");
+          if (url) openSourceModal(url);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
